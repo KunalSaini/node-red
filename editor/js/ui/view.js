@@ -1757,21 +1757,37 @@ RED.view = (function() {
                             var inputPorts = thisNode.selectAll(".port_input");
                             if (d.inputs === 0 && !inputPorts.empty()) {
                                 inputPorts.remove();
-                                //nodeLabel.attr("x",30);
                             } else {
                                 var numInputs = d.inputs;
+                                var hasSelector = typeof d.hasSelector !== 'undefined' ? d.hasSelector : d._def.hasSelector || false;
+
+                                if (hasSelector) {
+                                  var numSelectors = 1;
+                                  d.selectPorts = d.selectPorts || d3.range(numSelectors);
+                                  d._selectPorts = thisNode.selectAll(".port_selector").data(d.selectPorts);
+                                  var selectorsGroup = d._selectPorts.enter().append("g").attr("class","port_selector");
+
+                                  appendPorts(selectorsGroup, d, i, 0, 1);
+
+                                  d._selectPorts.exit().remove();
+                                  if (d._selectPorts) {
+                                      var x = (d.w/2)-((numSelectors-1)/2)*13;
+                                      var y = -5;
+                                      d._selectPorts.each(function(d,i) {
+                                              var port = d3.select(this);
+                                              //port.attr("y",(y+13*i)-5).attr("x",x);
+                                              port.attr("transform", function(d) { return "translate("+((x+13*i)-5)+","+y+")";});
+                                      });
+                                  }
+                                }
+
                                 var y = (d.h/2)-((numInputs-1)/2)*13;
                                 d.inputPorts = d.inputPorts || d3.range(numInputs);
                                 d._inputPorts = thisNode.selectAll(".port_input").data(d.inputPorts);
                                 var inputGroup = d._inputPorts.enter().append("g").attr("class","port_input");
+                                var idxOffset = hasSelector ? 1 : 0;
 
-                                inputGroup.append("rect").attr("class","port").attr("rx",3).attr("ry",3).attr("width",10).attr("height",10)
-                                    .on("mousedown",(function(){var node = d; return function(d,i){portMouseDown(node,1,i);}})(i) )
-                                    .on("touchstart",(function(){var node = d; return function(d,i){portMouseDown(node,1,i);}})(i) )
-                                    .on("mouseup",(function(){var node = d; return function(d,i){portMouseUp(node,1,i);}})(i) )
-                                    .on("touchend",(function(){var node = d; return function(d,i){portMouseUp(node,1,i);}})(i) )
-                                    .on("mouseover",function(d,i) { var port = d3.select(this); port.classed("port_hovered",(mouse_mode!=RED.state.JOINING || (drag_lines.length > 0 && drag_lines[0].portType !== 1) ));})
-                                    .on("mouseout",function(d,i) { var port = d3.select(this); port.classed("port_hovered",false);});
+                                appendPorts(inputGroup, d, i, idxOffset, 1);
 
                                 d._inputPorts.exit().remove();
                                 if (d._inputPorts) {
@@ -1792,13 +1808,7 @@ RED.view = (function() {
                             d._ports = thisNode.selectAll(".port_output").data(d.ports);
                             var output_group = d._ports.enter().append("g").attr("class","port_output");
 
-                            output_group.append("rect").attr("class","port").attr("rx",3).attr("ry",3).attr("width",10).attr("height",10)
-                                .on("mousedown",(function(){var node = d; return function(d,i){portMouseDown(node,0,i);}})() )
-                                .on("touchstart",(function(){var node = d; return function(d,i){portMouseDown(node,0,i);}})() )
-                                .on("mouseup",(function(){var node = d; return function(d,i){portMouseUp(node,0,i);}})() )
-                                .on("touchend",(function(){var node = d; return function(d,i){portMouseUp(node,0,i);}})() )
-                                .on("mouseover",function(d,i) { var port = d3.select(this); port.classed("port_hovered",(mouse_mode!=RED.state.JOINING || (drag_lines.length > 0 && drag_lines[0].portType !== 0) ));})
-                                .on("mouseout",function(d,i) { var port = d3.select(this); port.classed("port_hovered",false);});
+                            appendPorts(output_group, d, i, 0, 0);
 
                             d._ports.exit().remove();
                             if (d._ports) {
@@ -2017,19 +2027,44 @@ RED.view = (function() {
                 var link = d3.select(this);
                 if (d.added || d===selected_link || d.selected || dirtyNodes[d.source.id] || dirtyNodes[d.target.id]) {
                     link.attr("d",function(d){
-                        var numOutputs = d.source.outputs || 1;
-                        var sourcePort = d.sourcePort || 0;
-                        var y = -((numOutputs-1)/2)*13 +13*sourcePort;
+                        var hasSelector = typeof d.target.hasSelector !== 'undefined' ? d.target.hasSelector : d.target._def.hasSelector || false;
+                        var numOutputs;
+                        var sourcePort;
+                        var y;
+                        var ytarget;
+                        var tPortOffset = hasSelector ? 1 : 0;
+
+                        if (hasSelector) {
+                          if (d.targetPort === 0) {
+                            numOutputs = d.source.outputs || 1;
+                            sourcePort = d.sourcePort || 0;
+                            y = -((numOutputs - 1)/2) * 13 + 13 * sourcePort;
+                            ytarget = -(d.target.h/2);
+
+                            d.x1 = d.source.x+d.source.w/2;
+                            d.y1 = d.source.y+y;
+                            d.x2 = d.target.x;
+                            d.y2 = d.target.y+ytarget;
+
+                            return "M " + d.x1 + " " + d.y1 +
+                                    " H " + (d.x1 + node_width/2) +
+                                    " L " + d.x2 + " " + (d.y2 - node_width/2) +
+                                    " V " + d.y2;
+                          }
+                        }
+
+                        numOutputs = d.source.outputs || 1;
+                        sourcePort = d.sourcePort || 0;
+                        y = -((numOutputs-1)/2)*13 +13*sourcePort;
                         var numInputs = d.target.inputs || 1;
                         var targetPort = d.targetPort || 0;
-                        var ytarget = -((numInputs-1)/2)*13 +13*targetPort;
-
-                        // var dy = d.target.y-(d.source.y+y);
+                        ytarget = -((numInputs-1)/2) * 13 + 13 * (targetPort - tPortOffset);
                         var dy = (d.target.y+ytarget)-(d.source.y+y);
                         var dx = (d.target.x-d.target.w/2)-(d.source.x+d.source.w/2);
                         var delta = Math.sqrt(dy*dy+dx*dx);
                         var scale = lineCurveScale;
                         var scaleY = 0;
+
                         if (delta < node_width) {
                             scale = 0.75-0.75*((node_width-delta)/node_width);
                         }
@@ -2044,13 +2079,12 @@ RED.view = (function() {
                         d.x1 = d.source.x+d.source.w/2;
                         d.y1 = d.source.y+y;
                         d.x2 = d.target.x-d.target.w/2;
-                        // d.y2 = d.target.y;
                         d.y2 = d.target.y+ytarget;
 
                         return "M "+(d.x1)+" "+(d.y1)+
-                        					" C "+(d.x1+scale*node_width)+" "+(d.y1+scaleY*node_height)+" "+
-                        					(d.x2-scale*node_width)+" "+(d.y2-scaleY*node_height)+" "+
-                        					(d.x2)+" "+d.y2;
+                                  " C "+(d.x1+scale*node_width)+" "+(d.y1+scaleY*node_height)+" "+
+                                  (d.x2-scale*node_width)+" "+(d.y2-scaleY*node_height)+" "+
+                                  (d.x2)+" "+d.y2;
                     });
                 }
             })
@@ -2192,6 +2226,16 @@ RED.view = (function() {
             d3.event.preventDefault();
         }
 
+    }
+
+    function appendPorts(group, d, i, offset, portType) {
+      group.append("rect").attr("class","port").attr("rx",3).attr("ry",3).attr("width",10).attr("height",10)
+          .on("mousedown",(function(){var node = d; var pType = portType; return function(d,i){portMouseDown(node,pType,i+offset);}})(i) )
+          .on("touchstart",(function(){var node = d; var pType = portType; return function(d,i){portMouseDown(node,pType,i+offset);}})(i) )
+          .on("mouseup",(function(){var node = d; var pType = portType; return function(d,i){portMouseUp(node,pType,i+offset);}})(i) )
+          .on("touchend",(function(){var node = d; var pType = portType; return function(d,i){portMouseUp(node,pType,i+offset);}})(i) )
+          .on("mouseover",function() { var pType = portType; var port = d3.select(this); port.classed("port_hovered",(mouse_mode!=RED.state.JOINING || (drag_lines.length > 0 && drag_lines[0].portType !== pType) ));})
+          .on("mouseout",function() { var port = d3.select(this); port.classed("port_hovered",false);});
     }
 
     function focusView() {

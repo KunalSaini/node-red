@@ -886,7 +886,9 @@ RED.nodes = (function() {
                     var wires = (n.wires[w1] instanceof Array)?n.wires[w1]:[n.wires[w1]];
                     for (var w2=0;w2<wires.length;w2++) {
                         if (wires[w2].node in node_map) {
-                            var link = {source:n,sourcePort:w1,target:node_map[wires[w2].node],targetPort:wires[w2].port};
+                            var targetNode = node_map[wires[w2].node];
+                            var hasSelector = typeof targetNode.hasSelector !== 'undefined' ? targetNode.hasSelector : targetNode._def.hasSelector || false;
+                            var link = {source:n,sourcePort:w1,target:targetNode,targetPort:wires[w2].port};
                             addLink(link);
                             new_links.push(link);
                         }

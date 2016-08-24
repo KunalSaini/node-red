@@ -121,6 +121,10 @@
     cursor: crosshair;
 }
 
+.port_selector > .port {
+  fill: yellow;
+}
+
 .port_highlight {
     stroke: #6DA332;
     stroke-width: 3;
@@ -177,7 +181,7 @@
     text-anchor:start;
 }
 
-.port_hovered {
+.port_hovered, .port_selector > .port_hovered {
     stroke: $port-selected-color;
     fill:  $port-selected-color;
 }
