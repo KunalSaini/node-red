@@ -157,7 +157,9 @@
         "label": {
             "function": "Function",
             "outputs": "Outputs",
-            "inputs": "Inputs"
+            "inputs": "Inputs",
+            "labels": "Input Labels",
+            "labelsPlaceholder": "comma-separated list of letters and symbols"
         },
         "error": {
             "inputListener":"Cannot add listener to 'input' event within Function"

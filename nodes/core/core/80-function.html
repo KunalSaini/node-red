@@ -32,6 +32,10 @@
         <input id="node-input-inputs" style="width: 60px;" value="1">
     </div>
     <div class="form-row">
+        <label for="node-input-labels"><i class="fa fa-random"></i> <span data-i18n="function.label.labels"></span></label>
+        <input type="text" id="node-input-labels" data-i18n="[placeholder]function.label.labelsPlaceholder">
+    </div>
+    <div class="form-row">
         <label for="node-input-outputs"><i class="fa fa-random"></i> <span data-i18n="function.label.outputs"></span></label>
         <input id="node-input-outputs" style="width: 60px;" value="1">
     </div>
@@ -77,7 +81,9 @@
         defaults: {
             name: {value:""},
             func: {value:"\nreturn msg;"},
+            // hasSelector: {value:true},
             inputs: {value:1},
+            labels: {value:''},
             outputs: {value:1},
             noerr: {value:0,required:true,validate:function(v){ return ((!v) || (v === 0)) ? true : false; }}
         },
@@ -121,7 +127,7 @@
                 type:"function", // the type of object the library is for
                 editor:this.editor, // the field name the main text body goes to
                 mode:"ace/mode/javascript",
-                fields:['name', 'inputs', 'outputs']
+                fields:['name', 'inputs', 'outputs', 'labels']
             });
             this.editor.focus();
         },

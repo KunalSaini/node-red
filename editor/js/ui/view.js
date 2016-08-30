@@ -1627,7 +1627,10 @@ RED.view = (function() {
                    //node.append("rect").attr("class", "node-gradient-top").attr("rx", 6).attr("ry", 6).attr("height",30).attr("stroke","none").attr("fill","url(#gradient-top)").style("pointer-events","none");
                    //node.append("rect").attr("class", "node-gradient-bottom").attr("rx", 6).attr("ry", 6).attr("height",30).attr("stroke","none").attr("fill","url(#gradient-bottom)").style("pointer-events","none");
 
+                    var hasLabels = !!d.labels && d.labels.length > 0;
                     if (d._def.icon) {
+                        var box_width = hasLabels ? "40" : "30";
+                        var icon_x = hasLabels ? 15 : 0;
 
                         var icon_group = node.append("g")
                             .attr("class","node_icon_group")
@@ -1636,7 +1639,7 @@ RED.view = (function() {
                         var icon_shade = icon_group.append("rect")
                             .attr("x",0).attr("y",0)
                             .attr("class","node_icon_shade")
-                            .attr("width","30")
+                            .attr("width", box_width)
                             .attr("stroke","none")
                             .attr("fill","#000")
                             .attr("fill-opacity","0.05")
@@ -1645,12 +1648,12 @@ RED.view = (function() {
                         var icon = icon_group.append("image")
                             .attr("xlink:href","icons/"+d._def.icon)
                             .attr("class","node_icon")
-                            .attr("x",0)
+                            .attr("x", icon_x)
                             .attr("width","30")
                             .attr("height","30");
 
                         var icon_shade_border = icon_group.append("path")
-                            .attr("d",function(d) { return "M 30 1 l 0 "+(d.h-2)})
+                            .attr("d",function(d) { return "M " + box_width + " 1 l 0 "+(d.h-2)})
                             .attr("class","node_icon_shade_border")
                             .attr("stroke-opacity","0.1")
                             .attr("stroke","#000")
@@ -1676,9 +1679,14 @@ RED.view = (function() {
                         var img = new Image();
                         img.src = "icons/"+d._def.icon;
                         img.onload = function() {
+                            var iconX = 15 - Math.min(img.width ,30) / 2;
+                            if (!!d.labels && d.labels.length > 0) {
+                              iconX = 15;
+                            }
+
                             icon.attr("width",Math.min(img.width,30));
                             icon.attr("height",Math.min(img.height,30));
-                            icon.attr("x",15-Math.min(img.width,30)/2);
+                            icon.attr("x",iconX);
                             //if ("right" == d._def.align) {
                             //    icon.attr("x",function(d){return d.w-img.width-1-(d.outputs>0?5:0);});
                             //    icon_shade.attr("x",function(d){return d.w-30});
@@ -1690,7 +1698,8 @@ RED.view = (function() {
                         icon_group.style("pointer-events","none");
                     }
                     if (!isLink) {
-                        var text = node.append("svg:text").attr("class","node_label").attr("x", 38).attr("dy", ".35em").attr("text-anchor","start");
+                        var labelX = hasLabels ? 48 : 38;
+                        var text = node.append("svg:text").attr("class","node_label").attr("x", labelX).attr("dy", ".35em").attr("text-anchor","start");
                         if (d._def.align) {
                             text.attr("class","node_label node_label_"+d._def.align);
                             if (d._def.align === "right") {
@@ -1749,7 +1758,8 @@ RED.view = (function() {
                             //thisNode.selectAll(".node-gradient-bottom").attr("width",function(d){return d.w}).attr("y",function(d){return d.h-30});
 
                             thisNode.selectAll(".node_icon_group_right").attr("transform", function(d){return "translate("+(d.w-30)+",0)"});
-                            thisNode.selectAll(".node_label_right").attr("x", function(d){return d.w-38});
+                            var labelOffset = !!d.labels && d.labels.length > 0 ? 48 : 38;
+                            thisNode.selectAll(".node_label_right").attr("x", function(d){return d.w-labelOffset});
                             //thisNode.selectAll(".node_icon_right").attr("x",function(d){return d.w-d3.select(this).attr("width")-1-(d.outputs>0?5:0);});
                             //thisNode.selectAll(".node_icon_shade_right").attr("x",function(d){return d.w-30;});
                             //thisNode.selectAll(".node_icon_shade_border_right").attr("d",function(d){return "M "+(d.w-30)+" 1 l 0 "+(d.h-2)});
@@ -1767,7 +1777,7 @@ RED.view = (function() {
                                   d._selectPorts = thisNode.selectAll(".port_selector").data(d.selectPorts);
                                   var selectorsGroup = d._selectPorts.enter().append("g").attr("class","port_selector");
 
-                                  appendPorts(selectorsGroup, d, i, 0, 1);
+                                  appendPorts(selectorsGroup, d, i, 0, 1, null);
 
                                   d._selectPorts.exit().remove();
                                   if (d._selectPorts) {
@@ -1787,7 +1797,15 @@ RED.view = (function() {
                                 var inputGroup = d._inputPorts.enter().append("g").attr("class","port_input");
                                 var idxOffset = hasSelector ? 1 : 0;
 
-                                appendPorts(inputGroup, d, i, idxOffset, 1);
+                                appendPorts(inputGroup, d, i, idxOffset, 1, d.labels);
+
+
+                                var portLabels = !!d.labels && d.labels.length > 0 ? d.labels.split(',') : null;
+                                thisNode.selectAll("text.input_port_label").text(function(d,i) {
+                                  if (!portLabels || (hasSelector && i === 0)) { return ''; }
+
+                                  return portLabels[hasSelector ? i-1 : i];
+                                });
 
                                 d._inputPorts.exit().remove();
                                 if (d._inputPorts) {
@@ -1808,7 +1826,7 @@ RED.view = (function() {
                             d._ports = thisNode.selectAll(".port_output").data(d.ports);
                             var output_group = d._ports.enter().append("g").attr("class","port_output");
 
-                            appendPorts(output_group, d, i, 0, 0);
+                            appendPorts(output_group, d, i, 0, 0, null);
 
                             d._ports.exit().remove();
                             if (d._ports) {
@@ -1870,10 +1888,17 @@ RED.view = (function() {
                                     icon.attr("xlink:href","icons/"+icon_url);
                                     var img = new Image();
                                     img.src = "icons/"+d._def.icon;
+
+                                    // Take labels into account
+                                    var imgX = 15 - Math.min(img.width ,30) / 2;
+                                    if (!!d.labels && d.labels.length > 0) {
+                                      imgX = 15;
+                                    }
+
                                     img.onload = function() {
                                         icon.attr("width",Math.min(img.width,30));
                                         icon.attr("height",Math.min(img.height,30));
-                                        icon.attr("x",15-Math.min(img.width,30)/2);
+                                        icon.attr("x", imgX);
                                     }
                                 }
                             }
@@ -1896,9 +1921,21 @@ RED.view = (function() {
                             });
                             */
 
-                            thisNode.selectAll(".node_icon").attr("y",function(d){return (d.h-d3.select(this).attr("height"))/2;});
-                            thisNode.selectAll(".node_icon_shade").attr("height",function(d){return d.h;});
-                            thisNode.selectAll(".node_icon_shade_border").attr("d",function(d){ return "M "+(("right" == d._def.align) ?0:30)+" 1 l 0 "+(d.h-2)});
+                            thisNode.selectAll(".node_icon").attr("y",function(d){return (d.h-d3.select(this).attr("height"))/2;})
+                              .attr('x', function(d) {
+                                return !!d.labels && d.labels.length > 0 ? 15 : (15 - Math.min(d3.select(this).attr("width"), 30) / 2);
+                              });
+                            thisNode.selectAll(".node_icon_shade").attr("height",function(d){return d.h;}).attr("width", function(d) {
+                              return !!d.labels && d.labels.length > 0 ? 40 : 30;
+                            });
+                            thisNode.selectAll(".node_icon_shade_border").attr("d", function(d) {
+                              // Take labels into account
+                              var xPos = (("right" == d._def.align) ? 0 : 30);
+                              if (!!d.labels && d.labels.length > 0) {
+                                xPos = 40;
+                              }
+                              return "M "+ xPos+" 1 l 0 "+(d.h-2)
+                            });
 
                             thisNode.selectAll(".node_button").attr("opacity",function(d) {
                                 return (activeSubflow||d.changed)?0.4:1
@@ -2047,9 +2084,15 @@ RED.view = (function() {
                             d.y2 = d.target.y+ytarget;
 
                             return "M " + d.x1 + " " + d.y1 +
+                                    " H " + d.x2 +
+                                    " V " + d.y2;
+
+                            /*
+                            return "M " + d.x1 + " " + d.y1 +
                                     " H " + (d.x1 + node_width/2) +
                                     " L " + d.x2 + " " + (d.y2 - node_width/2) +
                                     " V " + d.y2;
+                            */
                           }
                         }
 
@@ -2228,7 +2271,7 @@ RED.view = (function() {
 
     }
 
-    function appendPorts(group, d, i, offset, portType) {
+    function appendPorts(group, d, i, offset, portType, labels) {
       group.append("rect").attr("class","port").attr("rx",3).attr("ry",3).attr("width",10).attr("height",10)
           .on("mousedown",(function(){var node = d; var pType = portType; return function(d,i){portMouseDown(node,pType,i+offset);}})(i) )
           .on("touchstart",(function(){var node = d; var pType = portType; return function(d,i){portMouseDown(node,pType,i+offset);}})(i) )
@@ -2236,6 +2279,10 @@ RED.view = (function() {
           .on("touchend",(function(){var node = d; var pType = portType; return function(d,i){portMouseUp(node,pType,i+offset);}})(i) )
           .on("mouseover",function() { var pType = portType; var port = d3.select(this); port.classed("port_hovered",(mouse_mode!=RED.state.JOINING || (drag_lines.length > 0 && drag_lines[0].portType !== pType) ));})
           .on("mouseout",function() { var port = d3.select(this); port.classed("port_hovered",false);});
+
+      var labelClass = portType === 1 ? 'input_port_label port_label' : 'port_label';
+      group.append("svg:text").attr("class", labelClass).attr("x",15).attr("y",7)
+        .style("font-size","10px").style("fill", "white");
     }
 
     function focusView() {
