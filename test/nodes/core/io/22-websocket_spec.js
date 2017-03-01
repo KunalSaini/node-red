@@ -120,7 +120,7 @@ describe('websocket Node', function() {
         it('should receive data', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws" },
-                { id: "n2", type: "websocket in", server: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", server: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -136,7 +136,7 @@ describe('websocket Node', function() {
         it('should receive wholemsg', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws", wholemsg: "true" },
-                { id: "n2", type: "websocket in", server: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", server: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -152,7 +152,7 @@ describe('websocket Node', function() {
         it('should receive wholemsg when data not JSON', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws", wholemsg: "true" },
-                { id: "n2", type: "websocket in", server: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", server: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -168,7 +168,7 @@ describe('websocket Node', function() {
         it('should send', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws" },
-                { id: "n2", type: "helper", wires: [["n3"]] },
+                { id: "n2", type: "helper", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "websocket out", server: "n1" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -187,7 +187,7 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws", wholemsg: "true" },
                 { id: "n2", type: "websocket out", server: "n1" },
-                { id: "n3", type: "helper", wires: [["n2"]] }];
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
                     sock.on("message", function(msg, flags) {
@@ -204,7 +204,7 @@ describe('websocket Node', function() {
         it('should do nothing if no payload', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws" },
-                { id: "n2", type: "helper", wires: [["n3"]] },
+                { id: "n2", type: "helper", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "websocket out", server: "n1" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -223,7 +223,7 @@ describe('websocket Node', function() {
         it('should echo', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws" },
-                { id: "n2", type: "websocket in", server: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", server: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "websocket out", server: "n1" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -239,7 +239,7 @@ describe('websocket Node', function() {
         it('should echo wholemsg', function(done) {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws", wholemsg: "true" },
-                { id: "n2", type: "websocket in", server: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", server: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "websocket out", server: "n1" }];
             helper.load(websocketNode, flow, function() {
                 createClient("n1").then(function(sock) {
@@ -256,7 +256,7 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "n1", type: "websocket-listener", path: "/ws" },
                 { id: "n2", type: "websocket out", server: "n1" },
-                { id: "n3", type: "helper", wires: [["n2"]] }];
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] }];
             helper.load(websocketNode, flow, function() {
                 var def1 = when.defer(),
                     def2 = when.defer();
@@ -344,7 +344,7 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws") },
-                { id: "n2", type: "websocket in", client: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", client: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
@@ -362,7 +362,7 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws"), wholemsg: "true" },
-                { id: "n2", type: "websocket in", client: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", client: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
@@ -379,7 +379,7 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws"), wholemsg: "true" },
-                { id: "n2", type: "websocket in", client: "n1", wires: [["n3"]] },
+                { id: "n2", type: "websocket in", client: "n1", wires: [[{node: 'n3',port: 0}]] },
                 { id: "n3", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
@@ -397,7 +397,7 @@ describe('websocket Node', function() {
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws") },
                 { id: "n2", type: "websocket out", client: "n1" },
-                { id: "n3", type: "helper", wires: [["n2"]] }];
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
                     sock.on('message', function(msg) {
@@ -418,7 +418,7 @@ describe('websocket Node', function() {
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws") },
                 { id: "n2", type: "websocket out", client: "n1" },
-                { id: "n3", type: "helper", wires: [["n2"]] }];
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
                     sock.on('message', function(msg) {
@@ -439,7 +439,7 @@ describe('websocket Node', function() {
                 { id: "server", type: "websocket-listener", path: "/ws" },
                 { id: "n1", type: "websocket-client", path: getWsUrl("/ws"), wholemsg: "true" },
                 { id: "n2", type: "websocket out", client: "n1" },
-                { id: "n3", type: "helper", wires: [["n2"]] }];
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] }];
             helper.load(websocketNode, flow, function() {
                 getSocket('server').on('connection', function(sock) {
                     sock.on('message', function(msg) {
@@ -459,9 +459,9 @@ describe('websocket Node', function() {
             var flow = [
                 { id: "server", type: "websocket-listener", path: "/ws", wholemsg: "true" },
                 { id: "client", type: "websocket-client", path: getWsUrl("/ws"), wholemsg: "true" },
-                { id: "n1", type: "websocket in", client: "client", wires: [["n2", "output"]] },
+                { id: "n1", type: "websocket in", client: "client", wires: [[{node: 'n2',port: 0}, {node: 'output',port: 0}]] },
                 { id: "n2", type: "websocket out", server: "server" },
-                { id: "n3", type: "helper", wires: [["n2"]] },
+                { id: "n3", type: "helper", wires: [[{node: 'n2',port: 0}]] },
                 { id: "output", type: "helper" }];
             helper.load(websocketNode, flow, function() {
                 getSocket('client').on('open', function() {

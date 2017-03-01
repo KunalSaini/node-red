@@ -151,7 +151,7 @@ describe('Node', function() {
     describe('#send', function() {
 
         it('emits a single message', function(done) {
-            var n1 = new RedNode({id:'n1',type:'abc',wires:[['n2']]});
+            var n1 = new RedNode({id:'n1',type:'abc',wires:[[{node: 'n2',port: 0}]]});
             var n2 = new RedNode({id:'n2',type:'abc'});
             var flowGet = sinon.stub(flows,"get",function(id) {
                 return {'n1':n1,'n2':n2}[id];
@@ -170,7 +170,7 @@ describe('Node', function() {
         });
 
         it('emits multiple messages on a single output', function(done) {
-            var n1 = new RedNode({id:'n1',type:'abc',wires:[['n2']]});
+            var n1 = new RedNode({id:'n1',type:'abc',wires:[[{node: 'n2',port: 0}]]});
             var n2 = new RedNode({id:'n2',type:'abc'});
             var flowGet = sinon.stub(flows,"get",function(id) {
                 return {'n1':n1,'n2':n2}[id];
@@ -201,7 +201,7 @@ describe('Node', function() {
         });
 
         it('emits messages to multiple outputs', function(done) {
-            var n1 = new RedNode({id:'n1',type:'abc',wires:[['n2'],['n3'],['n4','n5']]});
+            var n1 = new RedNode({id:'n1',type:'abc',wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0},{node: 'n5',port: 0}]]});
             var n2 = new RedNode({id:'n2',type:'abc'});
             var n3 = new RedNode({id:'n3',type:'abc'});
             var n4 = new RedNode({id:'n4',type:'abc'});
@@ -281,7 +281,7 @@ describe('Node', function() {
         });
 
         it('emits messages ignoring non-existent nodes', function(done) {
-            var n1 = new RedNode({id:'n1',type:'abc',wires:[['n9'],['n2']]});
+            var n1 = new RedNode({id:'n1',type:'abc',wires:[[{node: 'n9',port: 0}],[{node: 'n2',port: 0}]]});
             var n2 = new RedNode({id:'n2',type:'abc'});
             var flowGet = sinon.stub(flows,"get",function(id) {
                 return {'n1':n1,'n2':n2}[id];
@@ -304,7 +304,7 @@ describe('Node', function() {
         });
 
         it('emits messages without cloning req or res', function(done) {
-            var n1 = new RedNode({id:'n1',type:'abc',wires:[[['n2'],['n3']]]});
+            var n1 = new RedNode({id:'n1',type:'abc',wires:[[{node: 'n2',port: 0},{node: 'n3',port: 0}]]});
             var n2 = new RedNode({id:'n2',type:'abc'});
             var n3 = new RedNode({id:'n3',type:'abc'});
             var flowGet = sinon.stub(flows,"get",function(id) {
@@ -317,7 +317,6 @@ describe('Node', function() {
             var message = {payload: "foo", cloned: cloned, req: req, res: res};
 
             var rcvdCount = 0;
-
             // first message to be sent, so should not be cloned
             n2.on('input',function(msg) {
                 should.deepEqual(msg, message);
@@ -366,7 +365,7 @@ describe('Node', function() {
 
             Log.addHandler(logHandler);
 
-            var sender = new RedNode({id:'n1',type:'abc', wires:[['n2', 'n3']]});
+            var sender = new RedNode({id:'n1',type:'abc', wires:[[{node: 'n2',port: 0}, {node: 'n3',port: 0}]]});
             var receiver1 = new RedNode({id:'n2',type:'abc'});
             var receiver2 = new RedNode({id:'n3',type:'abc'});
             sender.send({"some": "message"});

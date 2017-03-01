@@ -38,7 +38,7 @@ describe('sentiment Node', function() {
     });
 
     it('should pass on msg if no payload', function(done) {
-        var flow = [{id:"jn1",type:"sentiment",wires:[["jn2"]]},
+        var flow = [{id:"jn1",type:"sentiment",wires:[[{node: 'jn2',port: 0}]]},
                     {id:"jn2", type:"helper"}];
         helper.load(sentimentNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -54,7 +54,7 @@ describe('sentiment Node', function() {
     });
 
     it('should add a positive score for good words', function(done) {
-        var flow = [{id:"jn1",type:"sentiment",wires:[["jn2"]]},
+        var flow = [{id:"jn1",type:"sentiment",wires:[[{node: 'jn2',port: 0}]]},
                     {id:"jn2", type:"helper"}];
         helper.load(sentimentNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -76,7 +76,7 @@ describe('sentiment Node', function() {
     });
 
     it('should add a negative score for bad words', function(done) {
-        var flow = [{id:"jn1",type:"sentiment",wires:[["jn2"]]},
+        var flow = [{id:"jn1",type:"sentiment",wires:[[{node: 'jn2',port: 0}]]},
                     {id:"jn2", type:"helper"}];
         helper.load(sentimentNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -94,7 +94,7 @@ describe('sentiment Node', function() {
     });
 
     it('should allow you to override word scoring', function(done) {
-        var flow = [{id:"jn1",type:"sentiment",wires:[["jn2"]]},
+        var flow = [{id:"jn1",type:"sentiment",wires:[[{node: 'jn2',port: 0}]]},
                     {id:"jn2", type:"helper"}];
         helper.load(sentimentNode, flow, function() {
             var jn1 = helper.getNode("jn1");

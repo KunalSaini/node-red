@@ -32,7 +32,7 @@ describe('inject node', function() {
 
         helper.load(injectNode, [{id:"n1", type:"inject",
                     payload:"payload", topic: "t1",
-                    once: true, wires:[["n2"]] },
+                    once: true, wires:[[{node: 'n2',port: 0}]] },
                    {id:"n2", type:"helper"}],
                   function() {
                       var n2 = helper.getNode("n2");
@@ -48,7 +48,7 @@ describe('inject node', function() {
 
         helper.load(injectNode, [{id:"n1", type:"inject",
                     payload:"payload", topic: "t2",
-                    repeat: 0.2, wires:[["n2"]] },
+                    repeat: 0.2, wires:[[{node: 'n2',port: 0}]] },
                    {id:"n2", type:"helper"}],
                   function() {
                       var n2 = helper.getNode("n2");
@@ -69,7 +69,7 @@ describe('inject node', function() {
     it('should inject with cron', function(done) {
         helper.load(injectNode, [{id:"n1", type:"inject",
                     payloadType:"date", topic: "t3",
-                    crontab: "* * * * * *", wires:[["n3"]] },
+                    crontab: "* * * * * *", wires:[[{node: 'n3',port: 0}]] },
                    {id:"n3", type:"helper"}],
                   function() {
                       var n3 = helper.getNode("n3");
@@ -88,7 +88,7 @@ describe('inject node', function() {
             helper.load(injectNode,
                         [{id:"n1", type:"inject",
                           payloadType:"str", topic: "t4",payload:"hello",
-                          wires:[["n4"]] },
+                          wires:[[{node: 'n4',port: 0}]] },
                          { id:"n4", type:"helper"}], function() {
                              var n4 = helper.getNode("n4");
                              n4.on("input", function(msg) {

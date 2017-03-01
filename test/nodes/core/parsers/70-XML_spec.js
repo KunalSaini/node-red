@@ -38,7 +38,7 @@ describe('XML node', function() {
     });
 
     it('should convert a valid xml string to a javascript object', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -58,7 +58,7 @@ describe('XML node', function() {
     });
 
     it('should convert a valid xml string to a javascript object with options', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -78,7 +78,7 @@ describe('XML node', function() {
     });
 
     it('should convert a javascript object to an xml string', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -95,7 +95,7 @@ describe('XML node', function() {
     });
 
     it('should convert a javascript object to an xml string with options', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -112,7 +112,7 @@ describe('XML node', function() {
     });
 
     it('should log an error if asked to parse an invalid xml string', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -133,9 +133,9 @@ describe('XML node', function() {
             },200);
         });
     });
-    
+
     it('should log an error if asked to parse something thats not xml or js', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -157,7 +157,7 @@ describe('XML node', function() {
     });
 
     it('should just pass through if payload is missing', function(done) {
-        var flow = [{id:"n1",type:"xml",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"xml",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(xmlNode, flow, function() {
             var n1 = helper.getNode("n1");

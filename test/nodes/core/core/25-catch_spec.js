@@ -25,7 +25,7 @@ describe('catch Node', function() {
     });
 
     it('should output a message when called', function(done) {
-        var flow = [ { id:"n1", type:"catch", name:"catch", wires:[["n2"]] },
+        var flow = [ { id:"n1", type:"catch", name:"catch", wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(catchNode, flow, function() {
             var n1 = helper.getNode("n1");

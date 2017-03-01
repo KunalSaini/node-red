@@ -48,7 +48,7 @@ describe('CSV node', function() {
     describe('csv to json', function() {
 
         it('should convert a simple csv string to a javascript object', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -63,7 +63,7 @@ describe('CSV node', function() {
         });
 
         it('should remove quotes and whitespace from template', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:'"a",  "b" , " c "," d  " ', wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:'"a",  "b" , " c "," d  " ', wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -78,7 +78,7 @@ describe('CSV node', function() {
         });
 
         it('should create column names if no template provided', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:'', wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:'', wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -93,7 +93,7 @@ describe('CSV node', function() {
         });
 
         it('should allow dropping of fields from the template', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,,,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,,,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -109,7 +109,7 @@ describe('CSV node', function() {
 
 
         it('should allow quotes in the input', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e,f,g", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e,f,g", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -125,7 +125,7 @@ describe('CSV node', function() {
         });
 
         it('should recover from an odd number of quotes in the input', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e,f,g", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e,f,g", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -142,7 +142,7 @@ describe('CSV node', function() {
         });
 
         it('should be able to use the first line as a template', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", hdrin:true, wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", hdrin:true, wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -165,7 +165,7 @@ describe('CSV node', function() {
         });
 
         it('should be able to output multiple lines as one array', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", multi:"yes", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", multi:"yes", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -180,7 +180,7 @@ describe('CSV node', function() {
         });
 
         it('should handle numbers in strings but not IP addresses', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d,e", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -198,7 +198,7 @@ describe('CSV node', function() {
     describe('json object to csv', function() {
 
         it('should convert a simple object back to a csv', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -216,7 +216,7 @@ describe('CSV node', function() {
         });
 
         it('should convert an array of objects to a multi-line csv', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -234,7 +234,7 @@ describe('CSV node', function() {
         });
 
         it('should convert a simple array back to a csv', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -252,7 +252,7 @@ describe('CSV node', function() {
         });
 
         it('should convert an array of arrays back to a multi-line csv', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -270,7 +270,7 @@ describe('CSV node', function() {
         });
 
         it('should be able to include column names as first row', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", hdrout:true, ret:"\r\n", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", hdrout:true, ret:"\r\n", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -288,7 +288,7 @@ describe('CSV node', function() {
         });
 
         it('should handle quotes and sub-properties', function(done) {
-            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+            var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                     {id:"n2", type:"helper"} ];
             helper.load(csvNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -308,7 +308,7 @@ describe('CSV node', function() {
     });
 
     it('should just pass through if no payload provided', function(done) {
-        var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+        var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                 {id:"n2", type:"helper"} ];
         helper.load(csvNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -328,7 +328,7 @@ describe('CSV node', function() {
     });
 
     it('should warn if provided a number or boolean', function(done) {
-        var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[["n2"]] },
+        var flow = [ { id:"n1", type:"csv", temp:"a,b,c,d", wires:[[{node: 'n2',port: 0}]] },
                 {id:"n2", type:"helper"} ];
         helper.load(csvNode, flow, function() {
             var n1 = helper.getNode("n1");

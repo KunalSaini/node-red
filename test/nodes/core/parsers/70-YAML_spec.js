@@ -38,7 +38,7 @@ describe('YAML node', function() {
     });
 
     it('should convert a valid yaml string to a javascript object', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             var yn1 = helper.getNode("yn1");
@@ -56,7 +56,7 @@ describe('YAML node', function() {
     });
 
     it('should convert a javascript object to a yaml string', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             var yn1 = helper.getNode("yn1");
@@ -71,7 +71,7 @@ describe('YAML node', function() {
     });
 
     it('should convert an array to a yaml string', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             var yn1 = helper.getNode("yn1");
@@ -86,7 +86,7 @@ describe('YAML node', function() {
     });
 
     it('should log an error if asked to parse an invalid yaml string', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             try {
@@ -108,7 +108,7 @@ describe('YAML node', function() {
     });
 
     it('should log an error if asked to parse something thats not yaml or js', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             var yn1 = helper.getNode("yn1");
@@ -137,7 +137,7 @@ describe('YAML node', function() {
     });
 
     it('should pass straight through if no payload set', function(done) {
-        var flow = [{id:"yn1",type:"yaml",wires:[["yn2"]],func:"return msg;"},
+        var flow = [{id:"yn1",type:"yaml",wires:[[{node: 'yn2',port: 0}]],func:"return msg;"},
                     {id:"yn2", type:"helper"}];
         helper.load(yamlNode, flow, function() {
             var yn1 = helper.getNode("yn1");

@@ -74,7 +74,7 @@ describe('trigger node', function() {
     });
 
     it('should output 1 then 0 when triggered (default)', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:20, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:20, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -95,7 +95,7 @@ describe('trigger node', function() {
     });
 
     it('should ignore any other inputs while triggered if extend is false', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:50,wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:50,wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -137,7 +137,7 @@ describe('trigger node', function() {
     });
 
     it('should handle true and false as strings and delay of 0', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1:"true",op1type:"val",op2:"false",op2type:"val",duration:30, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1:"true",op1type:"val",op2:"false",op2type:"val",duration:30, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -162,7 +162,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to not output anything on first trigger', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"nul", op1:"true",op2:"false",op2type:"val",duration:30, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"nul", op1:"true",op2:"false",op2type:"val",duration:30, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -180,7 +180,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to not output anything on second edge', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op2type:"nul", op1:"true",op1type:"val", op2:"false", duration:30, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op2type:"nul", op1:"true",op1type:"val", op2:"false", duration:30, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -199,7 +199,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to extend the delay', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"pay", op1:"false",  op2:"true", duration:100, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"pay", op1:"false",  op2:"true", duration:100, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -226,7 +226,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to extend the delay (but with no 2nd output)', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"pay", op2type:"nul", op1:"false",  op2:"true", duration:50, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"pay", op2type:"nul", op1:"false",  op2:"true", duration:50, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -256,7 +256,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to extend the delay and output the 2nd payload', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"nul", op2type:"payl", op1:"false", op2:"true", duration:50, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"true", op1type:"nul", op2type:"payl", op1:"false", op2:"true", duration:50, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -285,7 +285,7 @@ describe('trigger node', function() {
     });
 
     it('should be able output the 2nd payload', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"false", op1type:"nul", op2type:"payl", op1:"false", op2:"true", duration:50, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", extend:"false", op1type:"nul", op2type:"payl", op1:"false", op2:"true", duration:50, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -314,7 +314,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to apply mustache templates to payloads', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"val", op2type:"val", op1:"{{payload}}",  op2:"{{topic}}", duration:50, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"val", op2type:"val", op1:"{{payload}}",  op2:"{{topic}}", duration:50, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -335,7 +335,7 @@ describe('trigger node', function() {
     });
 
     it('should handle string null as null', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"val", op2type:"pay", op1:"null", op2:"null", duration:40, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", op1type:"val", op2type:"pay", op1:"null", op2:"null", duration:40, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -356,7 +356,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to set infinite timeout, and clear timeout', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:-5, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", duration:-5, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -378,7 +378,7 @@ describe('trigger node', function() {
     });
 
     it('should be able to set infinite timeout, and clear timeout by message', function(done) {
-        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", reset:"boo", duration:-5, wires:[["n2"]] },
+        var flow = [{"id":"n1", "type":"trigger", "name":"triggerNode", reset:"boo", duration:-5, wires:[[{node: 'n2',port: 0}]] },
             {id:"n2", type:"helper"} ];
         helper.load(triggerNode, flow, function() {
             var n1 = helper.getNode("n1");

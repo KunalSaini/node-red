@@ -38,7 +38,7 @@ describe('function node', function() {
     });
 
     it('should send returned message', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(functionNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -53,7 +53,7 @@ describe('function node', function() {
     });
 
     it('should pass through _topic', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],func:"return msg;"},
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                     {id:"n2", type:"helper"}];
         helper.load(functionNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -69,7 +69,7 @@ describe('function node', function() {
     });
 
     it('should send to multiple outputs', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"],["n3"]],
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}]],
                      func:"return [{payload: '1'},{payload: '2'}];"},
                     {id:"n2", type:"helper"}, {id:"n3", type:"helper"} ];
         helper.load(functionNode, flow, function() {
@@ -96,7 +96,7 @@ describe('function node', function() {
     });
 
     it('should send to multiple messages', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],
                      func:"return [[{payload: 1},{payload: 2}]];"},
                     {id:"n2", type:"helper"} ];
         helper.load(functionNode, flow, function() {
@@ -120,7 +120,7 @@ describe('function node', function() {
     });
 
     it('should allow input to be discarded by returning null', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],func:"return null"},
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],func:"return null"},
                     {id:"n2", type:"helper"}];
         helper.load(functionNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -136,7 +136,7 @@ describe('function node', function() {
     });
 
     it('should handle null amongst valid messages', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],func:"return [[msg,null,msg],null]"},
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],func:"return [[msg,null,msg],null]"},
                 {id:"n2", type:"helper"},
                 {id:"n3", type:"helper"}];
         helper.load(functionNode, flow, function() {
@@ -160,7 +160,7 @@ describe('function node', function() {
         });
     });
     it('should handle and log script error', function(done) {
-        var flow = [{id:"n1",type:"function",wires:[["n2"]],func:"retunr"}];
+        var flow = [{id:"n1",type:"function",wires:[[{node: 'n2',port: 0}]],func:"retunr"}];
         helper.load(functionNode, flow, function() {
             var n1 = helper.getNode("n1");
             n1.receive({payload:"foo",topic: "bar"});
@@ -183,7 +183,7 @@ describe('function node', function() {
     });
     describe('Logger', function () {
         it('should log an Info Message', function (done) {
-            var flow = [{id: "n1", type: "function", wires: [["n2"]], func: "node.log('test');"}];
+            var flow = [{id: "n1", type: "function", wires: [[{node: 'n2',port: 0}]], func: "node.log('test');"}];
             helper.load(functionNode, flow, function () {
                 var n1 = helper.getNode("n1");
                 n1.receive({payload: "foo", topic: "bar"});
@@ -205,7 +205,7 @@ describe('function node', function() {
             });
         });
         it('should log a Warning Message', function (done) {
-            var flow = [{id: "n1", type: "function", wires: [["n2"]], func: "node.warn('test');"}];
+            var flow = [{id: "n1", type: "function", wires: [[{node: 'n2',port: 0}]], func: "node.warn('test');"}];
             helper.load(functionNode, flow, function () {
                 var n1 = helper.getNode("n1");
                 n1.receive({payload: "foo", topic: "bar"});
@@ -227,7 +227,7 @@ describe('function node', function() {
             });
         });
         it('should log an Error Message', function (done) {
-            var flow = [{id: "n1", type: "function", wires: [["n2"]], func: "node.error('test');"}];
+            var flow = [{id: "n1", type: "function", wires: [[{node: 'n2',port: 0}]], func: "node.error('test');"}];
             helper.load(functionNode, flow, function () {
                 var n1 = helper.getNode("n1");
                 n1.receive({payload: "foo", topic: "bar"});

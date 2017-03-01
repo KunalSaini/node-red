@@ -379,7 +379,7 @@ describe('file Nodes', function() {
         });
 
         it('should read in a file and output a buffer', function(done) {
-            var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"", wires:[["n2"]]},
+            var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"", wires:[[{node: 'n2',port: 0}]]},
                     {id:"n2", type:"helper"}];
             helper.load(fileNode, flow, function() {
                 var n1 = helper.getNode("fileInNode1");
@@ -396,7 +396,7 @@ describe('file Nodes', function() {
 
 // Commented out to make build pass on node v.0.8 - reinstate when we drop 0.8 support...
         //it('should read in a file and output a utf8 string', function(done) {
-            //var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"utf8", wires:[["n2"]]},
+            //var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"utf8", wires:[[{node: 'n2',port: 0}]]},
                     //{id:"n2", type:"helper"}];
             //helper.load(fileNode, flow, function() {
                 //var n1 = helper.getNode("fileInNode1");
@@ -413,7 +413,7 @@ describe('file Nodes', function() {
 
 // Commented out as we no longer need to warn of the very old deprecated behaviour
         //it('should warn if msg.props try to overide', function(done) {
-            //var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"", wires:[["n2"]]},
+            //var flow = [{id:"fileInNode1", type:"file in", name: "fileInNode", "filename":fileToTest, "format":"", wires:[[{node: 'n2',port: 0}]]},
                     //{id:"n2", type:"helper"}];
             //helper.load(fileNode, flow, function() {
                 //var n1 = helper.getNode("fileInNode1");

@@ -59,7 +59,7 @@ describe('change Node', function() {
     describe('#set' , function() {
 
         it('sets the value of the message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"changed","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"changed","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -78,7 +78,7 @@ describe('change Node', function() {
         });
 
         it('sets the value and type of the message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "set", "p": "payload", "pt": "msg", "to": "12345", "tot": "num" }],"reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "set", "p": "payload", "pt": "msg", "to": "12345", "tot": "num" }],"reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -99,7 +99,7 @@ describe('change Node', function() {
         });
 
         it('sets the value of an already set multi-level message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"bar","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"bar","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -117,7 +117,7 @@ describe('change Node', function() {
         });
 
         it('sets the value of an empty multi-level message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"bar","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"bar","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -135,7 +135,7 @@ describe('change Node', function() {
         });
 
         it('sets the value of a message property to another message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo","from":"","to":"msg.fred","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo","from":"","to":"msg.fred","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -156,7 +156,7 @@ describe('change Node', function() {
         });
 
         it('sets the value of a multi-level message property to another multi-level message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"msg.fred.red","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"msg.fred.red","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -174,7 +174,7 @@ describe('change Node', function() {
         });
 
         it('doesn\'t set the value of a message property when the \'to\' message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"msg.fred.red","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"foo.bar","from":"","to":"msg.fred.red","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -192,7 +192,7 @@ describe('change Node', function() {
         });
 
         it('overrides the value of a message property when the \'to\' message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.foo","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.foo","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -210,7 +210,7 @@ describe('change Node', function() {
         });
 
         it('sets the message property to null when the \'to\' message property equals null', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.foo","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.foo","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -228,7 +228,7 @@ describe('change Node', function() {
         });
 
         it('does not set other properties using = inside to property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.otherProp=10","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"payload","from":"","to":"msg.otherProp=10","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
             {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -246,7 +246,7 @@ describe('change Node', function() {
         });
 
         it('splits dot delimited properties into objects', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"pay.load","from":"","to":"10","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"replace","property":"pay.load","from":"","to":"10","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -264,7 +264,7 @@ describe('change Node', function() {
         });
 
         it('changes the value to a number', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"set","p":"payload","to":"123","tot":"num"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"set","p":"payload","to":"123","tot":"num"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -282,7 +282,7 @@ describe('change Node', function() {
         });
 
         it('changes the value to a js object', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"set","p":"payload","to":'{"a":123}',"tot":"json"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"set","p":"payload","to":'{"a":123}',"tot":"json"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -300,7 +300,7 @@ describe('change Node', function() {
         });
 
         it('sets the value of the message property to the current timestamp', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"set","p":"ts","pt":"msg","to":"","tot":"date"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"set","p":"ts","pt":"msg","to":"","tot":"date"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -321,7 +321,7 @@ describe('change Node', function() {
     });
     describe('#change', function() {
         it('changes the value of the message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -339,7 +339,7 @@ describe('change Node', function() {
         });
 
         it('changes the value and doesnt change type of the message property for partial match', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "change", "p": "payload", "pt": "msg", "from": "123", "fromt": "str", "to": "456", "tot": "num" }],"reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "change", "p": "payload", "pt": "msg", "from": "123", "fromt": "str", "to": "456", "tot": "num" }],"reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -360,7 +360,7 @@ describe('change Node', function() {
         });
 
         it('changes the value and type of the message property if a complete match', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "change", "p": "payload", "pt": "msg", "from": "123", "fromt": "str", "to": "456", "tot": "num" }],"reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{ "t": "change", "p": "payload", "pt": "msg", "from": "123", "fromt": "str", "to": "456", "tot": "num" }],"reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -381,7 +381,7 @@ describe('change Node', function() {
         });
 
         it('changes the value of a multi-level message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo.bar","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo.bar","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -399,7 +399,7 @@ describe('change Node', function() {
         });
 
         it('sends unaltered message if the changed message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -417,7 +417,7 @@ describe('change Node', function() {
         });
 
         it('sends unaltered message if a changed multi-level message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo.bar","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"foo.bar","from":"Hello","to":"Goodbye","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -435,7 +435,7 @@ describe('change Node', function() {
         });
 
         it('changes the value of the message property based on a regex', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"\\d+","to":"NUMBER","reg":true,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"\\d+","to":"NUMBER","reg":true,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -453,7 +453,7 @@ describe('change Node', function() {
         });
 
         it('supports regex groups', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"(Hello)","to":"$1-$1-$1","reg":true,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"(Hello)","to":"$1-$1-$1","reg":true,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -472,7 +472,7 @@ describe('change Node', function() {
 
         it('reports invalid regex', function(done) {
             var sinon = require('sinon');
-            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"\\+**+","to":"NUMBER","reg":true,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"change","property":"payload","from":"\\+**+","to":"NUMBER","reg":true,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var logEvents = helper.log().args.filter(function (evt) {
@@ -488,7 +488,7 @@ describe('change Node', function() {
         });
 
         it('supports regex groups - new rule format', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"(Hello)","to":"$1-$1-$1","fromt":"re","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"(Hello)","to":"$1-$1-$1","fromt":"re","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -506,7 +506,7 @@ describe('change Node', function() {
         });
 
         it('changes the value - new rule format', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"ABC","to":"123","fromt":"str","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"ABC","to":"123","fromt":"str","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -524,7 +524,7 @@ describe('change Node', function() {
         });
 
         it('changes the value using msg property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"topic","to":"123","fromt":"msg","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"topic","to":"123","fromt":"msg","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -542,7 +542,7 @@ describe('change Node', function() {
         });
 
         it('changes the value using number - string payload', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"123","to":"456","fromt":"num","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"123","to":"456","fromt":"num","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -560,7 +560,7 @@ describe('change Node', function() {
         });
 
         it('changes the value using number - number payload', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"123","to":"abc","fromt":"num","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"123","to":"abc","fromt":"num","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -578,7 +578,7 @@ describe('change Node', function() {
         });
 
         it('changes the value using boolean - string payload', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"true","to":"xxx","fromt":"bool","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"true","to":"xxx","fromt":"bool","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -596,7 +596,7 @@ describe('change Node', function() {
         });
 
         it('changes the value using boolean - boolean payload', function(done) {
-            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"true","to":"xxx","fromt":"bool","tot":"str"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change",rules:[{"t":"change","p":"payload","from":"true","to":"xxx","fromt":"bool","tot":"str"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -616,7 +616,7 @@ describe('change Node', function() {
 
     describe("#delete", function() {
         it('deletes the value of the message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"payload","from":"","to":"","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"payload","from":"","to":"","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -634,7 +634,7 @@ describe('change Node', function() {
         });
 
         it('deletes the value of a multi-level message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo.bar","from":"","to":"","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo.bar","from":"","to":"","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -652,7 +652,7 @@ describe('change Node', function() {
         });
 
         it('sends unaltered message if the deleted message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo","from":"","to":"","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo","from":"","to":"","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -671,7 +671,7 @@ describe('change Node', function() {
         });
 
         it('sends unaltered message if a deleted multi-level message property does not exist', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo.bar","from":"","to":"","reg":false,"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","action":"delete","property":"foo.bar","from":"","to":"","reg":false,"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -692,7 +692,7 @@ describe('change Node', function() {
 
     describe("#move", function() {
         it('moves the value of the message property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"topic","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"topic","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -711,7 +711,7 @@ describe('change Node', function() {
             });
         });
         it('moves the value of a message property object', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"topic","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"topic","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -732,7 +732,7 @@ describe('change Node', function() {
             });
         });
         it('moves the value of a message property object to a sub-property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"payload","pt":"msg","to":"payload.foo","tot":"msg"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"payload","pt":"msg","to":"payload.foo","tot":"msg"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -751,7 +751,7 @@ describe('change Node', function() {
             });
         });
         it('moves the value of a message sub-property object to a property', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"payload.foo","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[["helperNode1"]]},
+            var flow = [{"id":"changeNode1","type":"change","rules":[{"t":"move","p":"payload.foo","pt":"msg","to":"payload","tot":"msg"}],"name":"changeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                         {id:"helperNode1", type:"helper", wires:[]}];
             helper.load(changeNode, flow, function() {
                 var changeNode1 = helper.getNode("changeNode1");
@@ -773,7 +773,7 @@ describe('change Node', function() {
 
     describe('- multiple rules', function() {
         it('handles multiple rules', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","wires":[["helperNode1"]],
+            var flow = [{"id":"changeNode1","type":"change","wires":[[{node: 'helperNode1',port: 0}]],
                         rules:[
                             {t:"set",p:"payload",to:"newValue"},
                             {t:"change",p:"changeProperty",from:"this",to:"that"},
@@ -801,7 +801,7 @@ describe('change Node', function() {
             });
         });
         it('applies multiple rules in order', function(done) {
-            var flow = [{"id":"changeNode1","type":"change","wires":[["helperNode1"]],
+            var flow = [{"id":"changeNode1","type":"change","wires":[[{node: 'helperNode1',port: 0}]],
                         rules:[
                             {t:"set",p:"payload",to:"a this (hi)"},
                             {t:"change",p:"payload",from:"this",to:"that"},

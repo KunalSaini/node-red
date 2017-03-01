@@ -49,7 +49,7 @@ describe('exec node', function() {
     describe('calling exec', function() {
 
         it('should exec a simple command', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:false, append:""},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:false, append:""},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             var spy = sinon.stub(child_process, 'exec',
                 function(arg1,arg2,arg3,arg4) {
@@ -100,7 +100,7 @@ describe('exec node', function() {
         });
 
         it('should exec a simple command with extra parameters', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:true, append:"more"},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:true, append:"more"},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             var spy = sinon.stub(child_process, 'exec',
                 function(arg1,arg2,arg3,arg4) {
@@ -153,7 +153,7 @@ describe('exec node', function() {
         });
 
         it('should be able to return a binary buffer', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:true, append:"more"},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:true, append:"more"},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             var spy = sinon.stub(child_process, 'exec',
                 function(arg1,arg2,arg3,arg4) {
@@ -215,7 +215,7 @@ describe('exec node', function() {
     describe('calling spawn', function() {
 
         it('should spawn a simple command', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:true, append:"", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:true, append:"", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             var events = require('events');
 
@@ -240,7 +240,7 @@ describe('exec node', function() {
         });
 
         it('should spawn a simple command with a non string payload parameter', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:true, append:" deg C", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:true, append:" deg C", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
 
             helper.load(execNode, flow, function() {
@@ -260,7 +260,7 @@ describe('exec node', function() {
         });
 
         it('should spawn a simple command and return binary buffer', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo", addpay:true, append:"", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo", addpay:true, append:"", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
 
             helper.load(execNode, flow, function() {
@@ -283,7 +283,7 @@ describe('exec node', function() {
         });
 
         it('should work if passed multiple words to spawn command', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"echo this now works", addpay:false, append:"", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"echo this now works", addpay:false, append:"", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             helper.load(execNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -329,7 +329,7 @@ describe('exec node', function() {
 
         if (!/^v0.10/.test(process.version)) {
             it('should return an error for a bad command', function(done) {
-                var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"madeupcommandshouldfail", addpay:false, append:"", useSpawn:true},
+                var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"madeupcommandshouldfail", addpay:false, append:"", useSpawn:true},
                 {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
                 helper.load(execNode, flow, function() {
                     var n1 = helper.getNode("n1");
@@ -354,7 +354,7 @@ describe('exec node', function() {
         }
 
         it('should return an error for a failing command', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"mkdir /foo/bar/doo/dah", addpay:false, append:"", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"mkdir /foo/bar/doo/dah", addpay:false, append:"", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             helper.load(execNode, flow, function() {
                 var n1 = helper.getNode("n1");
@@ -377,7 +377,7 @@ describe('exec node', function() {
         });
 
         it('should be able to timeout a long running command', function(done) {
-            var flow = [{id:"n1",type:"exec",wires:[["n2"],["n3"],["n4"]],command:"sleep", addpay:false, append:"1", timer:"0.3", useSpawn:true},
+            var flow = [{id:"n1",type:"exec",wires:[[{node: 'n2',port: 0}],[{node: 'n3',port: 0}],[{node: 'n4',port: 0}]],command:"sleep", addpay:false, append:"1", timer:"0.3", useSpawn:true},
                         {id:"n2", type:"helper"},{id:"n3", type:"helper"},{id:"n4", type:"helper"}];
             helper.load(execNode, flow, function() {
                 var n1 = helper.getNode("n1");

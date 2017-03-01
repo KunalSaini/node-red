@@ -38,7 +38,7 @@ describe('JSON node', function() {
     });
 
     it('should convert a valid json string to a javascript object', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -56,7 +56,7 @@ describe('JSON node', function() {
     });
 
     it('should convert a javascript object to a json string', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -71,7 +71,7 @@ describe('JSON node', function() {
     });
 
     it('should convert a array to a json string', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -86,7 +86,7 @@ describe('JSON node', function() {
     });
 
     it('should log an error if asked to parse an invalid json string', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             try {
@@ -108,7 +108,7 @@ describe('JSON node', function() {
     });
 
     it('should log an error if asked to parse something thats not json or js', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             var jn1 = helper.getNode("jn1");
@@ -137,7 +137,7 @@ describe('JSON node', function() {
     });
 
     it('should pass straight through if no payload set', function(done) {
-        var flow = [{id:"jn1",type:"json",wires:[["jn2"]],func:"return msg;"},
+        var flow = [{id:"jn1",type:"json",wires:[[{node: 'jn2',port: 0}]],func:"return msg;"},
                     {id:"jn2", type:"helper"}];
         helper.load(jsonNode, flow, function() {
             var jn1 = helper.getNode("jn1");

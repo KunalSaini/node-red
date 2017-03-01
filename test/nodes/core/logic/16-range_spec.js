@@ -53,7 +53,7 @@ describe('range Node', function() {
      * @param done - the callback to call when test done
      */
     function genericRangeTest(action, minin, maxin, minout, maxout, round, aPayload, expectedResult, done) {
-        var flow = [{"id":"rangeNode1","type":"range","minin":minin,"maxin":maxin,"minout":minout,"maxout":maxout,"action":action,"round":round,"name":"rangeNode","wires":[["helperNode1"]]},
+        var flow = [{"id":"rangeNode1","type":"range","minin":minin,"maxin":maxin,"minout":minout,"maxout":maxout,"action":action,"round":round,"name":"rangeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(rangeNode, flow, function() {
             var rangeNode1 = helper.getNode("rangeNode1");
@@ -107,7 +107,7 @@ describe('range Node', function() {
     });
 
     it('just passes on msg if payload not present', function(done) {
-        var flow = [{"id":"rangeNode1","type":"range","minin":0,"maxin":100,"minout":0,"maxout":100,"action":"scale","round":true,"name":"rangeNode","wires":[["helperNode1"]]},
+        var flow = [{"id":"rangeNode1","type":"range","minin":0,"maxin":100,"minout":0,"maxout":100,"action":"scale","round":true,"name":"rangeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(rangeNode, flow, function() {
             var rangeNode1 = helper.getNode("rangeNode1");
@@ -126,7 +126,7 @@ describe('range Node', function() {
     });
 
     it('reports if input is not a number', function(done) {
-        var flow = [{"id":"rangeNode1","type":"range","minin":0,"maxin":0,"minout":0,"maxout":0,"action":"scale","round":true,"name":"rangeNode","wires":[["helperNode1"]]},
+        var flow = [{"id":"rangeNode1","type":"range","minin":0,"maxin":0,"minout":0,"maxout":0,"action":"scale","round":true,"name":"rangeNode","wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(rangeNode, flow, function() {
             var rangeNode1 = helper.getNode("rangeNode1");

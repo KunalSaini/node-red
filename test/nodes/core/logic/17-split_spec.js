@@ -39,7 +39,7 @@ describe('SPLIT node', function() {
     });
 
     it('should split an array into multiple messages', function(done) {
-        var flow = [{id:"sn1", type:"split", wires:[["sn2"]]},
+        var flow = [{id:"sn1", type:"split", wires:[[{node: 'sn2',port: 0}]]},
                     {id:"sn2", type:"helper"}];
         helper.load(splitNode, flow, function() {
             var sn1 = helper.getNode("sn1");
@@ -59,7 +59,7 @@ describe('SPLIT node', function() {
     });
 
     it('should split a string into new-lines', function(done) {
-        var flow = [{id:"sn1", type:"split", wires:[["sn2"]]},
+        var flow = [{id:"sn1", type:"split", wires:[[{node: 'sn2',port: 0}]]},
                     {id:"sn2", type:"helper"}];
         helper.load(splitNode, flow, function() {
             var sn1 = helper.getNode("sn1");
@@ -79,7 +79,7 @@ describe('SPLIT node', function() {
     });
 
     it('should split a string on a specified char', function(done) {
-        var flow = [{id:"sn1", type:"split", wires:[["sn2"]], splt:"\n"},
+        var flow = [{id:"sn1", type:"split", wires:[[{node: 'sn2',port: 0}]], splt:"\n"},
                     {id:"sn2", type:"helper"}];
         helper.load(splitNode, flow, function() {
             var sn1 = helper.getNode("sn1");
@@ -99,7 +99,7 @@ describe('SPLIT node', function() {
     });
 
     it('should split an object into pieces', function(done) {
-        var flow = [{id:"sn1", type:"split", wires:[["sn2"]]},
+        var flow = [{id:"sn1", type:"split", wires:[[{node: 'sn2',port: 0}]]},
                     {id:"sn2", type:"helper"}];
         helper.load(splitNode, flow, function() {
             var sn1 = helper.getNode("sn1");
@@ -146,7 +146,7 @@ describe('JOIN node', function() {
     });
 
     it('should join things into an array after a count', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], count:3, joiner:",",mode:"custom"},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], count:3, joiner:",",mode:"custom"},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -169,7 +169,7 @@ describe('JOIN node', function() {
     });
 
     it('should join things into an object after a count', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], count:5, build:"object",mode:"custom"},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], count:5, build:"object",mode:"custom"},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -198,7 +198,7 @@ describe('JOIN node', function() {
     });
 
     it('should merge objects', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], count:6, build:"merged",mode:"custom"},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], count:6, build:"merged",mode:"custom"},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -225,7 +225,7 @@ describe('JOIN node', function() {
     });
 
     it('should join strings with a specifed character after a timeout', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], build:"string", timeout:0.05, count:10, joiner:",",mode:"custom"},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], build:"string", timeout:0.05, count:10, joiner:",",mode:"custom"},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -245,7 +245,7 @@ describe('JOIN node', function() {
     });
 
     it('should join strings with a specifed character and complete when told to', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], build:"string", timeout:5, count:100, joiner:"\n",mode:"custom"},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], build:"string", timeout:5, count:100, joiner:"\n",mode:"custom"},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -266,7 +266,7 @@ describe('JOIN node', function() {
     });
 
     it('should join split things back into an array', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]]},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]]},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -291,7 +291,7 @@ describe('JOIN node', function() {
     });
 
     it('should join split things back into an object', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]]},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]]},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -315,7 +315,7 @@ describe('JOIN node', function() {
     });
 
     it('should join split things, send when told complete', function(done) {
-        var flow = [{id:"n1", type:"join", wires:[["n2"]], timeout:0.250},
+        var flow = [{id:"n1", type:"join", wires:[[{node: 'n2',port: 0}]], timeout:0.250},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -339,7 +339,7 @@ describe('JOIN node', function() {
     });
 
     it('should join split strings back into a word', function(done) {
-        var flow = [{id:"n1", type:"join", mode:"auto", wires:[["n2"]]},
+        var flow = [{id:"n1", type:"join", mode:"auto", wires:[[{node: 'n2',port: 0}]]},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var n1 = helper.getNode("n1");
@@ -361,10 +361,10 @@ describe('JOIN node', function() {
     });
 
     it('should allow chained split-split-join-join sequences', function(done) {
-        var flow = [{id:"s1", type:"split",wires:[["s2"]]},
-                    {id:"s2", type:"split",wires:[["j1"]]},
-                    {id:"j1", type:"join", mode:"auto", wires:[["j2"]]},
-                    {id:"j2", type:"join", mode:"auto", wires:[["n2"]]},
+        var flow = [{id:"s1", type:"split",wires:[[{node: 's2',port: 0}]]},
+                    {id:"s2", type:"split",wires:[[{node: 'j1',port: 0}]]},
+                    {id:"j1", type:"join", mode:"auto", wires:[[{node: 'j2',port: 0}]]},
+                    {id:"j2", type:"join", mode:"auto", wires:[[{node: 'n2',port: 0}]]},
                     {id:"n2", type:"helper"}];
         helper.load(joinNode, flow, function() {
             var s1 = helper.getNode("s1");

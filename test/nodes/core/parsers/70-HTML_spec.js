@@ -50,7 +50,7 @@ describe('html node', function() {
 
     it('should retrieve header contents if asked to by msg.select', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],func:"return msg;"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -68,7 +68,7 @@ describe('html node', function() {
 
     it('should retrieve paragraph contents when specified', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],ret:"text",tag:"p"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],ret:"text",tag:"p"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -86,7 +86,7 @@ describe('html node', function() {
 
     it('should retrieve list contents as an array of html as default', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"ol"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"ol"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -105,7 +105,7 @@ describe('html node', function() {
 
     it('should retrieve list contents as an array of text', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"ol",ret:"text"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"ol",ret:"text"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -125,7 +125,7 @@ describe('html node', function() {
 
     it('should fix up a unclosed tag', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"span"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"span"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -143,7 +143,7 @@ describe('html node', function() {
 
     it('should retrive an attribute from a tag', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],ret:"attr",tag:"span img"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],ret:"attr",tag:"span img"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -162,7 +162,7 @@ describe('html node', function() {
 
     it('should log on error', function(done) {
         fs.readFile(file,function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"p"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"p"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -189,7 +189,7 @@ describe('html node', function() {
 
     it('should pass through if payload empty', function(done) {
         fs.readFile(file, 'utf8', function(err, data) {
-            var flow = [{id:"n1",type:"html",wires:[["n2"]],func:"return msg;"},
+            var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],func:"return msg;"},
                         {id:"n2", type:"helper"}];
 
             helper.load(htmlNode, flow, function() {
@@ -215,7 +215,7 @@ describe('html node', function() {
 
         it('should retrieve list contents as html as default with output as multiple msgs ', function(done) {
             fs.readFile(file, 'utf8', function(err, data) {
-                var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"ul",as:"multi"},
+                var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"ul",as:"multi"},
                             {id:"n2", type:"helper"}];
 
                 helper.load(htmlNode, flow, function() {
@@ -243,7 +243,7 @@ describe('html node', function() {
 
         it('should retrieve list contents as text with output as multiple msgs ', function(done) {
             fs.readFile(file, 'utf8', function(err, data) {
-                var flow = [{id:"n1",type:"html",wires:[["n2"]],tag:"ul",ret:"text",as:"multi"},
+                var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],tag:"ul",ret:"text",as:"multi"},
                             {id:"n2", type:"helper"}];
 
                 helper.load(htmlNode, flow, function() {
@@ -271,7 +271,7 @@ describe('html node', function() {
 
         it('should retrieve an attribute from a tag', function(done) {
             fs.readFile(file, 'utf8', function(err, data) {
-                var flow = [{id:"n1",type:"html",wires:[["n2"]],ret:"attr",tag:"span img",as:"multi"},
+                var flow = [{id:"n1",type:"html",wires:[[{node: 'n2',port: 0}]],ret:"attr",tag:"span img",as:"multi"},
                             {id:"n2", type:"helper"}];
 
                 helper.load(htmlNode, flow, function() {

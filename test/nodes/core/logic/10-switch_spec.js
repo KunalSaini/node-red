@@ -51,7 +51,7 @@ describe('switch Node', function() {
      * @param done - callback when done
      */
     function genericSwitchTest(rule, ruleWith, aCheckall, shouldReceive, sendPayload, done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule,"v":ruleWith}],checkall:aCheckall,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule,"v":ruleWith}],checkall:aCheckall,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, shouldReceive, sendPayload, done);
     }
@@ -65,7 +65,7 @@ describe('switch Node', function() {
      * @param done - callback when done
      */
     function singularSwitchTest(rule, aCheckall, shouldReceive, sendPayload, done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule}],checkall:aCheckall,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule}],checkall:aCheckall,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, shouldReceive, sendPayload, done);
     }
@@ -81,7 +81,7 @@ describe('switch Node', function() {
      * @param done - callback when done
      */
     function twoFieldSwitchTest(rule, ruleWith, ruleWith2, aCheckall, shouldReceive, sendPayload, done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule,"v":ruleWith,"v2":ruleWith2}],checkall:aCheckall,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":rule,"v":ruleWith,"v2":ruleWith2}],checkall:aCheckall,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, shouldReceive, sendPayload, done);
     }
@@ -204,17 +204,17 @@ describe('switch Node', function() {
     });
 
     it('should match regex with ignore-case flag set true', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree","case":true}],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree","case":true}],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, true, "oneTWOthree", done);
     });
     it('should not match regex with ignore-case flag unset', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree"}],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree"}],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, false, "oneTWOthree", done);
     });
     it('should not match regex with ignore-case flag set false', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree",case:false}],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"regex","v":"onetwothree",case:false}],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         customFlowSwitchTest(flow, false, "oneTWOthree", done);
     });
@@ -244,7 +244,7 @@ describe('switch Node', function() {
     });
 
     it('should check input against a previous value', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{ "t": "gt", "v": "", "vt": "prev" }],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{ "t": "gt", "v": "", "vt": "prev" }],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
 
         helper.load(switchNode, flow, function() {
@@ -277,7 +277,7 @@ describe('switch Node', function() {
     });
 
     it('should check input against a previous value (2nd option)', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t": "btwn", "v": "10", "vt": "num", "v2": "", "v2t": "prev" }],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t": "btwn", "v": "10", "vt": "num", "v2": "", "v2t": "prev" }],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
 
         helper.load(switchNode, flow, function() {
@@ -312,7 +312,7 @@ describe('switch Node', function() {
     });
 
     it('should check if input is indeed null', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"null"}],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"null"}],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
 
         helper.load(switchNode, flow, function() {
@@ -330,7 +330,7 @@ describe('switch Node', function() {
     });
 
     it('should check if input is indeed undefined', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"null"}],checkall:true,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"null"}],checkall:true,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
 
         helper.load(switchNode, flow, function() {
@@ -349,7 +349,7 @@ describe('switch Node', function() {
     });
 
     it('should check if input is indeed not null', function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"nnull"}],checkall:false,outputs:1,wires:[["helperNode1"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"nnull"}],checkall:false,outputs:1,wires:[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
 
 
@@ -376,7 +376,7 @@ describe('switch Node', function() {
     });
 
     it('handles more than one switch statement' , function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"eq","v":"Hello"},{"t":"cont","v":"ello"}, {"t":"else"}],checkall:true,outputs:3,wires:[["helperNode1"], ["helperNode2"], ["helperNode3"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"eq","v":"Hello"},{"t":"cont","v":"ello"}, {"t":"else"}],checkall:true,outputs:3,wires:[[{node: "helperNode1",port: 0}], [{node: "helperNode2",port: 0}], [{node: "helperNode3",port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]},
                     {id:"helperNode2", type:"helper", wires:[]},
                     {id:"helperNode3", type:"helper", wires:[]}];
@@ -426,7 +426,7 @@ describe('switch Node', function() {
     });
 
     it('stops after first statement' , function(done) {
-        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"eq","v":"Hello"},{"t":"cont","v":"ello"}, {"t":"else"}],checkall:"false",outputs:3,wires:[["helperNode1"], ["helperNode2"], ["helperNode3"]]},
+        var flow = [{id:"switchNode1",type:"switch",name:"switchNode",property:"payload",rules:[{"t":"eq","v":"Hello"},{"t":"cont","v":"ello"}, {"t":"else"}],checkall:"false",outputs:3,wires:[[{node: 'helperNode1',port: 0}], ["helperNode2"], ["helperNode3"]]},
                     {id:"helperNode1", type:"helper", wires:[]},
                     {id:"helperNode2", type:"helper", wires:[]},
                     {id:"helperNode3", type:"helper", wires:[]}];

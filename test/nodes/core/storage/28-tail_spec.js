@@ -49,7 +49,7 @@ describe('tail Node', function() {
     });
 
     it('should tail a file', function(done) {
-        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[["helperNode1"]]},
+        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(tailNode, flow, function() {
             var tailNode1 = helper.getNode("tailNode1");
@@ -71,7 +71,7 @@ describe('tail Node', function() {
     });
 
     it('should work in non-split mode', function(done) {
-        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":false, "filename":fileToTail, "wires":[["helperNode1"]]},
+        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":false, "filename":fileToTail, "wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(tailNode, flow, function() {
             var tailNode1 = helper.getNode("tailNode1");
@@ -89,7 +89,7 @@ describe('tail Node', function() {
     });
 
     it('should work in binary mode', function(done) {
-        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "filetype":"binary", "filename":fileToTail, "wires":[["helperNode1"]]},
+        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "filetype":"binary", "filename":fileToTail, "wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(tailNode, flow, function() {
             var tailNode1 = helper.getNode("tailNode1");
@@ -108,7 +108,7 @@ describe('tail Node', function() {
 
     it('should handle a non-existent file', function(done) {
         fs.writeFileSync(fileToTail, "Tail message line.\n");
-        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[["helperNode1"]]},
+        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(tailNode, flow, function() {
             var tailNode1 = helper.getNode("tailNode1");
@@ -140,7 +140,7 @@ describe('tail Node', function() {
 
     /*
     it('tail should handle file truncation', function(done) {
-        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[["helperNode1"]]},
+        var flow = [{id:"tailNode1", type:"tail", name: "tailNode", "split":true, "filename":fileToTail, "wires":[[{node: 'helperNode1',port: 0}]]},
                     {id:"helperNode1", type:"helper", wires:[]}];
         helper.load(tailNode, flow, function() {
             var tailNode1 = helper.getNode("tailNode1");
