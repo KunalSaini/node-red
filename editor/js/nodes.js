@@ -165,6 +165,12 @@ RED.nodes = (function() {
             configNodes[n.id] = n;
         } else {
             n.ports = [];
+            n.inputPorts = [];
+              if (n.inputs) {
+                for (var inp=0;inp<n.inputs;inp++) {
+                  n.inputPorts.push(inp);
+                }
+            }
             if (n.wires && (n.wires.length > n.outputs)) { n.outputs = n.wires.length; }
             if (n.outputs) {
                 for (var i=0;i<n.outputs;i++) {
@@ -462,7 +468,9 @@ RED.nodes = (function() {
             for (var j=0;j<wires.length;j++) {
                 var w = wires[j];
                 if (w.target.type != "subflow") {
-                    node.wires[w.sourcePort].push(w.target.id);
+                    // node.wires[w.sourcePort].push(w.target.id);
+                    var wireObj = { node: w.target.id, port: w.target }; // hard coded port right now...
+                    node.wires[w.sourcePort].push(wireObj);
                 }
             }
         }
@@ -484,7 +492,7 @@ RED.nodes = (function() {
             for (var i=0;i<wires.length;i++) {
                 var w = wires[i];
                 if (w.target.type != "subflow") {
-                    nIn.wires.push({id:w.target.id})
+                    nIn.wires.push({id:w.target.id, port:w.targetPort})
                 }
             }
             node.in.push(nIn);
@@ -1004,8 +1012,11 @@ RED.nodes = (function() {
                     var wires = (n.wires[w1] instanceof Array)?n.wires[w1]:[n.wires[w1]];
                     for (var w2=0;w2<wires.length;w2++) {
                         if (node_map.hasOwnProperty(wires[w2])) {
-                            if (n.z === node_map[wires[w2]].z) {
-                                var link = {source:n,sourcePort:w1,target:node_map[wires[w2]]};
+                            if (n.z === node_map[wires[w2].node].z) {
+                                // var link = {source:n,sourcePort:w1,target:node_map[wires[w2].node],targetPort:wires[w2].port};
+                                var targetNode = node_map[wires[w2].node];
+                                var hasSelector = typeof targetNode.hasSelector !== 'undefined' ? targetNode.hasSelector : targetNode._def.hasSelector || false;
+                                var link = {source:n,sourcePort:w1,target:targetNode,targetPort:wires[w2].port};
                                 addLink(link);
                                 new_links.push(link);
                             } else {
@@ -1114,6 +1125,9 @@ RED.nodes = (function() {
                 }
             }
             if (filter.hasOwnProperty("sourcePort") && link.sourcePort !== filter.sourcePort) {
+                continue;
+            }
+            if (filter.hasOwnProperty("targetPort") && link.targetPort !== filter.targetPort) {
                 continue;
             }
             result.push(link);

@@ -214,6 +214,28 @@ RED.editor = (function() {
                 }
             }
         }
+        if (node.inputPorts) {
+           var numInputs = node.inputPorts.length;
+           var hasSelector = node._def.hasSelector || node.hasSelector;
+           var totalPorts = hasSelector ? (numInputs + 1) : numInputs;
+           var maxIndex = hasSelector ? parseInt(node.inputs) + 1 : node.inputs;
+           if (node.inputs < numInputs) {
+               while (node.inputs < numInputs) {
+                   node.inputPorts.pop();
+                   numInputs--;
+               }
+               RED.nodes.eachLink(function(l) {
+                   if (l.target === node && l.targetPort >= maxIndex) {
+                       removedLinks.push(l);
+                   }
+               });
+           } else if (maxIndex > totalPorts) {
+               while (maxIndex > totalPorts) {
+                   node.inputPorts.push(totalPorts);
+                   totalPorts++;
+               }
+           }
+        }
         if (node.inputs === 0) {
             removedLinks.concat(RED.nodes.filterLinks({target:node}));
         }
