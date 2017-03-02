@@ -2033,7 +2033,6 @@ RED.view = (function() {
                                      d._inputPorts.each(function(d,i) {
                                              var port = d3.select(this);
                                              //port.attr("y",(y+13*i)-5).attr("x",x);
-                                             console.log(((yattr+13*i)-5));
                                              port.attr("transform", function(d) { return "translate("+xattr+","+((yattr+13*i)-5)+")";});
                                      });
                                 }

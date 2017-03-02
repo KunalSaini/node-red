@@ -469,7 +469,7 @@ RED.nodes = (function() {
                 var w = wires[j];
                 if (w.target.type != "subflow") {
                     // node.wires[w.sourcePort].push(w.target.id);
-                    var wireObj = { node: w.target.id, port: w.target }; // hard coded port right now...
+                    var wireObj = { node: w.target.id, port: w.targetPort };
                     node.wires[w.sourcePort].push(wireObj);
                 }
             }
@@ -1011,7 +1011,7 @@ RED.nodes = (function() {
                 for (var w1=0;w1<n.wires.length;w1++) {
                     var wires = (n.wires[w1] instanceof Array)?n.wires[w1]:[n.wires[w1]];
                     for (var w2=0;w2<wires.length;w2++) {
-                        if (node_map.hasOwnProperty(wires[w2])) {
+                        if (node_map.hasOwnProperty(wires[w2].node)) {
                             if (n.z === node_map[wires[w2].node].z) {
                                 // var link = {source:n,sourcePort:w1,target:node_map[wires[w2].node],targetPort:wires[w2].port};
                                 var targetNode = node_map[wires[w2].node];
